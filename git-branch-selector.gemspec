@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name      = 'git-branch-selector'
-  s.version   = '0.0.5'
+  s.version   = '1.0.0'
   s.platform  = Gem::Platform::RUBY
   s.summary   = 'A Git Branch Selector for your most recently used branches.'
   s.description = 'This is a Git branch selection tool. It provides a way to quickly look back at your most recently checked-out branches. You can list the branches, use the selector tool to add the branch name to your clipboard, or checkout to the selected branch.'

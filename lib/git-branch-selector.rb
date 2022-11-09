@@ -13,14 +13,14 @@ class GitBranchSelector
   end
 
   def build_menu
-    branches, = Open3.capture3('git branch')
-    if branches == ''
+    return show_list if flag == 'list'
+
+    if cleaned_branches.empty?
       puts %q(
         No branches to list. Ensure you're using this within a Git repository.
       )
       return
     end
-    return show_list if flag == 'list'
 
     selected_option = TTY::Prompt.new.select(
       "Pick a branch",
@@ -52,7 +52,7 @@ class GitBranchSelector
   end
 
   def cleaned_branches
-    get_branches.split("\n").map do |branch|
+    @cleaned_branches ||= get_branches.split("\n").map do |branch|
       branch.split(/\s+\d+\t\s+/).last
     end
   end

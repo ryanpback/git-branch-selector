@@ -2,7 +2,7 @@
 
 require 'optparse'
 # require 'pry'
-require 'git_branch_selector'
+require 'git-branch-selector'
 
 options = {
   count: 15,
@@ -46,7 +46,7 @@ begin
     end
 
   GitBranchSelector.new(
-    flag:,
+    flag: flag,
     branch_lookback_count: options[:count]
   ).build_menu
 rescue TTY::Reader::InputInterrupt
