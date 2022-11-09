@@ -1,0 +1,54 @@
+#! /usr/bin/env ruby
+
+require 'optparse'
+# require 'pry'
+require 'git-branch-selector'
+
+options = {
+  count: 15,
+  list: false,
+  copy: false
+}
+
+OptionParser.new do |opts|
+  opts.banner = 'Usage: gbs.rb [options].'
+  opts.banner << ' Passing no options will change branches on select.'
+  opts.banner << ' Default count is 15.'
+  opts.separator ''
+  opts.separator 'Specific options:'
+
+  opts.on('-n COUNT', '--num=COUNT', Integer, 'Number of branches to display') do |count|
+    options[:count] = count
+  end
+
+  opts.on('-l', '--list', 'List branches') do |bool|
+    options[:list] = !!bool
+  end
+
+  opts.on('-c', '--copy', 'Copy selected branch name') do |bool|
+    options[:copy] = !!bool
+  end
+end.parse!
+
+begin
+  if options[:list] && options[:copy]
+    p 'List (-l) and copy (-c) cannot be used together. Please choose only one option'
+    return
+  end
+
+  flag =
+    if options[:list]
+      'list'
+    elsif options[:copy]
+      'copy'
+    else
+      nil
+    end
+
+  GitBranchSelector.new(
+    flag: flag,
+    branch_lookback_count: options[:count]
+  ).build_menu
+rescue TTY::Reader::InputInterrupt
+  exit 1
+end
